@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        form {
+            display: inline-block;
+            text-align: left;
+        }
+        input, textarea {
+            width: 250px;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+        .error-input {
+            border: 2px solid red;
+        }
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Form Validation</h2>
+    <form id="myForm">
+        <label>Name:</label><br>
+        <input type="text" id="name"><br>
+        <span class="error" id="nameError"></span><br>
+
+        <label>Email:</label><br>
+        <input type="email" id="email"><br>
+        <span class="error" id="emailError"></span><br>
+
+        <label>Website:</label><br>
+        <input type="url" id="website"><br>
+        <span class="error" id="websiteError"></span><br>
+
+        <label>Message:</label><br>
+        <textarea id="message"></textarea><br>
+        <span class="error" id="messageError"></span><br>
+
+        <button type="button" onclick="validateForm()">Submit</button>
+    </form>
+
+    <script>
+        function validateForm() {
+            let isValid = true;
+
+            document.querySelectorAll('.error').forEach(e => e.innerText = '');
+            document.querySelectorAll('input, textarea').forEach(e => e.classList.remove('error-input'));
+
+            let name = document.getElementById('name').value.trim();
+            let email = document.getElementById('email').value.trim();
+            let website = document.getElementById('website').value.trim();
+            let message = document.getElementById('message').value.trim();
+
+            if (name === '') {
+                document.getElementById('nameError').innerText = "This field is required";
+                document.getElementById('name').classList.add('error-input');
+                isValid = false;
+            }
+
+            let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (email === '') {
+                document.getElementById('emailError').innerText = "A valid email address is required";
+                document.getElementById('email').classList.add('error-input');
+                isValid = false;
+            } else if (!emailPattern.test(email)) {
+                document.getElementById('emailError').innerText = "Invalid email format";
+                document.getElementById('email').classList.add('error-input');
+                isValid = false;
+            }
+
+            let urlPattern = /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\/?$/;
+            if (website === '') {
+                document.getElementById('websiteError').innerText = "A valid URL is required";
+                document.getElementById('website').classList.add('error-input');
+                isValid = false;
+            } else if (!urlPattern.test(website)) {
+                document.getElementById('websiteError').innerText = "Invalid URL format";
+                document.getElementById('website').classList.add('error-input');
+                isValid = false;
+            }
+
+            if (message === '') {
+                document.getElementById('messageError').innerText = "This field is required";
+                document.getElementById('message').classList.add('error-input');
+                isValid = false;
+            }
+
+            if (isValid) {
+                alert("Form submitted successfully!");
+            }
+        }
+    </script>
+
+</body>
+</html>
